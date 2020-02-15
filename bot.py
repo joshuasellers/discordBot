@@ -1,25 +1,22 @@
 # bot.py
-
 import os
-import discord
+from discord.ext import commands
 from dotenv import load_dotenv
+from youtube_search import YoutubeSearch
+import json
+import requests
 
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
+playlist = os.getenv('YOUTUBE_TOKEN')
 
-client = discord.Client()
+bot = commands.Bot(command_prefix='!')
 
 
-@client.event
-async def on_ready():
-    guild = discord.utils.find(lambda g: g.name == GUILD, client.guilds)
+@bot.command(name='search_song', help='Searches for song on YouTube (put song name in quotes)')
+async def song_search(ctx, song: str):
+    print(song)
 
-    print(
-        f'{client.user} is connected to the following guild:\n'
-        f'{guild.name}(id: {guild.id})'
-    )
-    members = '\n - '.join([member.name for member in guild.members])
-    print(f'Guild Members:\n - {members}')
-
-client.run(token)
+print("BOT RUNNING")
+bot.run(token)
