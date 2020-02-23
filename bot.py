@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 from youtube_search import YoutubeSearch
 import json
 import requests
+import os
+import sys
 
 # Set up your tokens and bot
 
@@ -33,7 +35,20 @@ async def song_search(ctx, song: str):
 
 @bot.command(name='post_song', help="Posts song to playlist based on song ID")
 async def song_post(ctx, song_id: str):
-    print("test")
+    POST = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key="+os.getenv('api_key')+"HTTP/1.1"
+
+    data ={'snippet':
+               {'playlistId': os.getenv('playlist_id'),
+                "position": 0,
+                "resourceId": {
+                    "kind": "youtube#video",
+                    "videoId": "M7FIvfx5J10"
+                    }
+                }
+            }
+    response = requests.post(POST, json=data)
+    print(response)
+
 
 # run bot
 
